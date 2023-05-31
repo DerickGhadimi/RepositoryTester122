@@ -24,7 +24,7 @@ public class starter {
             System.out.println("Enter magnitude of torque " + (i + 1) + " in Newton-meters:");
             torqueMagnitudes[i] = scanner.nextDouble();
 
-            System.out.println("Enter angle of torque " + (i + 1) + " in degrees:");
+            System.out.println("Enter angle of torque " + (i + 1) + " in degrees based on the horizontal:");
             torqueAngles[i] = scanner.nextDouble();
         }
 

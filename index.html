@@ -3,12 +3,66 @@
 <head>
     <title>Equilibrium Calculator</title>
     <style>
+        body {
+            background-color: #f2f2f2;
+            font-family: Arial, sans-serif;
+        }
+
         .calculator {
             margin: 20px;
             padding: 20px;
             border: 1px solid #ccc;
-            background-color: #f9f9f9;
+            background-color: #fff;
             max-width: 400px;
+            box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            margin-top: 0;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        input[type="number"],
+        input[type="text"] {
+            padding: 5px;
+            width: 100%;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+
+        button {
+            margin-top: 10px;
+            padding: 8px 16px;
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            font-weight: bold;
+            display: block;
+            width: 100%;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        #totalTorqueResult,
+        #positionResult,
+        #velocityResult,
+        #sineResult,
+        #cosineResult,
+        #tangentResult,
+        #trigIdentityResult {
+            margin-top: 10px;
+        }
+
+        #trigIdentityResult {
+            font-weight: bold;
         }
     </style>
 </head>
@@ -18,6 +72,7 @@
         <button onclick="showTorqueCalculator()">Torque Calculator</button>
         <button onclick="showKinematicCalculator()">Kinematic Calculator</button>
         <button onclick="showUnitCircleCalculator()">Unit Circle Calculator</button>
+        <button onclick="showTrigIdentityCalculator()">Trigonometric Identity Calculator</button>
     </div>
 
     <div id="torqueCalculator" class="calculator" style="display: none;">
@@ -56,14 +111,34 @@
 
     <div id="unitCircleCalculator" class="calculator" style="display: none;">
         <h2>Unit Circle Calculator</h2>
-        <label for="angle">Angle (in degrees):</label>
+        <label for="angle">Angle:</label>
         <input type="number" id="angle"><br>
+
+        <label for="angleUnit">Unit:</label>
+        <select id="angleUnit">
+            <option value="degree">Degree</option>
+            <option value="radian">Radian</option>
+        </select><br>
 
         <button onclick="calculateUnitCircle()">Calculate</button>
 
         <div id="sineResult"></div>
         <div id="cosineResult"></div>
         <div id="tangentResult"></div>
+    </div>
+
+    <div id="trigIdentityCalculator" class="calculator" style="display: none;">
+        <h2>Trigonometric Identity Calculator</h2>
+        <label for="trigIdentity1">Identity 1:</label>
+        <input type="text" id="trigIdentity1"><br>
+
+        <label for="trigIdentity2">Identity 2:</label>
+        <input type="text" id="trigIdentity2"><br>
+
+        <button onclick="checkTrigIdentities()">Check</button>
+        <button onclick="addExponents()">Add Exponents</button>
+
+        <div id="trigIdentityResult"></div>
     </div>
 
     <script>
@@ -80,6 +155,11 @@
         function showUnitCircleCalculator() {
             hideAllCalculators();
             document.getElementById('unitCircleCalculator').style.display = 'block';
+        }
+
+        function showTrigIdentityCalculator() {
+            hideAllCalculators();
+            document.getElementById('trigIdentityCalculator').style.display = 'block';
         }
 
         function hideAllCalculators() {
@@ -133,7 +213,14 @@
 
         function calculateUnitCircle() {
             var angle = parseFloat(document.getElementById('angle').value);
-            var radianAngle = angle * Math.PI / 180;
+            var angleUnit = document.getElementById('angleUnit').value;
+            var radianAngle = 0;
+
+            if (angleUnit === 'degree') {
+                radianAngle = angle * Math.PI / 180;
+            } else if (angleUnit === 'radian') {
+                radianAngle = angle;
+            }
 
             var sine = Math.sin(radianAngle);
             var cosine = Math.cos(radianAngle);
@@ -142,6 +229,25 @@
             document.getElementById('sineResult').innerHTML = 'Sine: ' + sine;
             document.getElementById('cosineResult').innerHTML = 'Cosine: ' + cosine;
             document.getElementById('tangentResult').innerHTML = 'Tangent: ' + tangent;
+        }
+
+        function checkTrigIdentities() {
+            var identity1 = document.getElementById('trigIdentity1').value;
+            var identity2 = document.getElementById('trigIdentity2').value;
+
+            if (identity1 === identity2) {
+                document.getElementById('trigIdentityResult').innerHTML = 'The identities are equal.';
+            } else {
+                document.getElementById('trigIdentityResult').innerHTML = 'The identities are not equal.';
+            }
+        }
+
+        function addExponents() {
+            var identity1 = document.getElementById('trigIdentity1');
+            var identity2 = document.getElementById('trigIdentity2');
+
+            identity1.value += '^';
+            identity2.value += '^';
         }
     </script>
 </body>
