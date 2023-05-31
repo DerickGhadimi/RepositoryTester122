@@ -1,4 +1,148 @@
-Hello World
-This is my first website without using HTML 
-I dont know where I am rn tbh
-I bench 2 plates (im lyinh)
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Equilibrium Calculator</title>
+    <style>
+        .calculator {
+            margin: 20px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            background-color: #f9f9f9;
+            max-width: 400px;
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <h2>Select the calculator:</h2>
+        <button onclick="showTorqueCalculator()">Torque Calculator</button>
+        <button onclick="showKinematicCalculator()">Kinematic Calculator</button>
+        <button onclick="showUnitCircleCalculator()">Unit Circle Calculator</button>
+    </div>
+
+    <div id="torqueCalculator" class="calculator" style="display: none;">
+        <h2>Torque Calculator</h2>
+        <label for="numTorques">Number of Torques:</label>
+        <input type="number" id="numTorques"><br>
+
+        <div id="torqueInputs">
+            <!-- Torque inputs will be dynamically added here -->
+        </div>
+
+        <button onclick="calculateTorque()">Calculate Total Torque</button>
+
+        <div id="totalTorqueResult"></div>
+    </div>
+
+    <div id="kinematicCalculator" class="calculator" style="display: none;">
+        <h2>Kinematic Calculator</h2>
+        <label for="initialPosition">Initial Position:</label>
+        <input type="number" id="initialPosition"><br>
+
+        <label for="initialVelocity">Initial Velocity:</label>
+        <input type="number" id="initialVelocity"><br>
+
+        <label for="acceleration">Acceleration:</label>
+        <input type="number" id="acceleration"><br>
+
+        <label for="time">Time:</label>
+        <input type="number" id="time"><br>
+
+        <button onclick="calculateKinematics()">Calculate</button>
+
+        <div id="positionResult"></div>
+        <div id="velocityResult"></div>
+    </div>
+
+    <div id="unitCircleCalculator" class="calculator" style="display: none;">
+        <h2>Unit Circle Calculator</h2>
+        <label for="angle">Angle (in degrees):</label>
+        <input type="number" id="angle"><br>
+
+        <button onclick="calculateUnitCircle()">Calculate</button>
+
+        <div id="sineResult"></div>
+        <div id="cosineResult"></div>
+        <div id="tangentResult"></div>
+    </div>
+
+    <script>
+        function showTorqueCalculator() {
+            hideAllCalculators();
+            document.getElementById('torqueCalculator').style.display = 'block';
+        }
+
+        function showKinematicCalculator() {
+            hideAllCalculators();
+            document.getElementById('kinematicCalculator').style.display = 'block';
+        }
+
+        function showUnitCircleCalculator() {
+            hideAllCalculators();
+            document.getElementById('unitCircleCalculator').style.display = 'block';
+        }
+
+        function hideAllCalculators() {
+            var calculators = document.getElementsByClassName('calculator');
+            for (var i = 0; i < calculators.length; i++) {
+                calculators[i].style.display = 'none';
+            }
+        }
+
+        function calculateTorque() {
+            var numTorques = parseInt(document.getElementById('numTorques').value);
+            var torqueInputs = document.getElementById('torqueInputs');
+            torqueInputs.innerHTML = '';
+
+            for (var i = 1; i <= numTorques; i++) {
+                var torqueDiv = document.createElement('div');
+                torqueDiv.innerHTML = `
+                    <label for="torqueMagnitude${i}">Magnitude of Torque ${i}:</label>
+                    <input type="number" id="torqueMagnitude${i}">
+
+                    <label for="torqueAngle${i}">Angle of Torque ${i} (in degrees):</label>
+                    <input type="number" id="torqueAngle${i}">
+                `;
+                torqueInputs.appendChild(torqueDiv);
+            }
+
+            var totalTorque = 0;
+
+            for (var i = 1; i <= numTorques; i++) {
+                var torqueMagnitude = parseFloat(document.getElementById('torqueMagnitude' + i).value);
+                var torqueAngle = parseFloat(document.getElementById('torqueAngle' + i).value);
+                var torque = torqueMagnitude * Math.sin(torqueAngle * Math.PI / 180);
+                totalTorque += torque;
+            }
+
+            document.getElementById('totalTorqueResult').innerHTML = 'Total Torque: ' + totalTorque + ' Nm';
+        }
+
+        function calculateKinematics() {
+            var initialPosition = parseFloat(document.getElementById('initialPosition').value);
+            var initialVelocity = parseFloat(document.getElementById('initialVelocity').value);
+            var acceleration = parseFloat(document.getElementById('acceleration').value);
+            var time = parseFloat(document.getElementById('time').value);
+
+            var finalPosition = initialPosition + initialVelocity * time + 0.5 * acceleration * Math.pow(time, 2);
+            var finalVelocity = initialVelocity + acceleration * time;
+
+            document.getElementById('positionResult').innerHTML = 'Final Position: ' + finalPosition + ' m';
+            document.getElementById('velocityResult').innerHTML = 'Final Velocity: ' + finalVelocity + ' m/s';
+        }
+
+        function calculateUnitCircle() {
+            var angle = parseFloat(document.getElementById('angle').value);
+            var radianAngle = angle * Math.PI / 180;
+
+            var sine = Math.sin(radianAngle);
+            var cosine = Math.cos(radianAngle);
+            var tangent = Math.tan(radianAngle);
+
+            document.getElementById('sineResult').innerHTML = 'Sine: ' + sine;
+            document.getElementById('cosineResult').innerHTML = 'Cosine: ' + cosine;
+            document.getElementById('tangentResult').innerHTML = 'Tangent: ' + tangent;
+        }
+    </script>
+</body>
+</html>
