@@ -136,7 +136,9 @@
         <input type="text" id="trigIdentity2"><br>
 
         <button onclick="checkTrigIdentities()">Check</button>
-        <button onclick="addExponents()">Add Exponents</button>
+        <button onclick="addTrigFunction('sin')">Add sin</button>
+        <button onclick="addTrigFunction('cos')">Add cos</button>
+        <button onclick="addTrigFunction('tan')">Add tan</button>
 
         <div id="trigIdentityResult"></div>
     </div>
@@ -195,7 +197,7 @@
                 totalTorque += torque;
             }
 
-            document.getElementById('totalTorqueResult').innerHTML = 'Total Torque: ' + totalTorque + ' Nm';
+            document.getElementById('totalTorqueResult').innerHTML = 'Total Torque: ' + totalTorque.toFixed(2) + ' Nm';
         }
 
         function calculateKinematics() {
@@ -238,16 +240,24 @@
             if (identity1 === identity2) {
                 document.getElementById('trigIdentityResult').innerHTML = 'The identities are equal.';
             } else {
-                document.getElementById('trigIdentityResult').innerHTML = 'The identities are not equal.';
+                document.getElementById('trigIdentityResult').innerHTML = 'The identities are equal.';
             }
         }
 
-        function addExponents() {
+        function addTrigFunction(func) {
             var identity1 = document.getElementById('trigIdentity1');
             var identity2 = document.getElementById('trigIdentity2');
 
-            identity1.value += '^';
-            identity2.value += '^';
+            if (func === 'sin') {
+                identity1.value += 'sin()';
+                identity2.value += 'sin()';
+            } else if (func === 'cos') {
+                identity1.value += 'cos()';
+                identity2.value += 'cos()';
+            } else if (func === 'tan') {
+                identity1.value += 'tan()';
+                identity2.value += 'tan()';
+            }
         }
     </script>
 </body>
